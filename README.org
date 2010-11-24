@@ -1,1 +1,38 @@
-This is the stub README.txt for the "rpd-coroutines" project.
+
+* rpd-coroutines
+This library implements coroutines, using continuations.
+
+* Usage Examples
+** simple
+#BEGIN_SRC
+> (defvar *c* (make-coroutine () (yield 1) (yield 3)))
+*C*
+> (funcall *c*)
+1
+> (funcall *c*)
+3
+> (funcall *c*) 
+:DONE
+> (funcall *c*) 
+:DONE
+#END_SRC
+** pick your own "done" value:
+#BEGIN_SRC
+> (setf *c* (make-coroutine (:done-value nil) (yield 1))
+*C*
+> (funcall *c*)
+1
+> (funcall *c*)
+NIL
+> (funcall *c*) 
+NIL
+#END_SRC
+** pick a name other than "yield"
+#BEGIN_SRC
+> (setf *c* (make-coroutine (:yield generate) (generate 1))
+*C*
+> (funcall *c*)
+1
+> (funcall *c*)
+:DONE
+#END_SRC
